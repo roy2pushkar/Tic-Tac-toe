@@ -1,42 +1,3 @@
-/*const boxes = document.querySelectorAll(".box");
-const gameInfo = document.querySelectorAll(".game-info");
-const newGameBtn = document.querySelectorAll(".btn");
-
-let currentPlayer;
-let gameGrid;
-
-const winningPosition = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6],
-];
-
-//lets create a function to initialise the game
-
-function initGame() {
-  currentPlayer = "X";
-  gameGrid = ["", "", "", "", "", "", "", "", ""];
-
-  //Bhai UI par empty v karna padega boxes ko
-
-  boxes.forEach((box, index) => {
-    box.innerText = "";
-    boxes[index].getElementsByClassName.pointerEvents = "all";
-
-    //one more thing is missing ,initialise box with css properties again
-
-    box.classList = "box box${index+1}";
-  });
-  newGameBtn.classList.remove("active");
-  gameInfo.innerText = "currentPlayer - ${currentPlayer}";
-}
-initGame();
-*/
 const boxes = document.querySelectorAll(".box");
 const gameInfo = document.querySelector(".game-info");
 const newGameBtn = document.querySelector(".btn");
@@ -78,12 +39,13 @@ function swapTurn() {
   } else {
     currentPlayer = "X";
   }
-  //UI update
+  //UI Update
   gameInfo.innerText = `Current Player - ${currentPlayer}`;
 }
 
 function checkGameOver() {
-  let answer = " ";
+  let answer = "";
+
   winningPositions.forEach((position) => {
     //all 3 boxes should be non-empty and exactly same in value
     if (
@@ -112,20 +74,21 @@ function checkGameOver() {
   });
 
   //it means we have a winner
-  if (answer !== " ") {
+  if (answer !== "") {
     gameInfo.innerText = `Winner Player - ${answer}`;
     newGameBtn.classList.add("active");
     return;
   }
+
   //We know, NO Winner Found, let's check whether there is tie
   let fillCount = 0;
   gameGrid.forEach((box) => {
-    if (fillCount !== "") fillCount++;
+    if (box !== "") fillCount++;
   });
 
-  //board is fill game is tie
-  if (fillCount === " 9") {
-    gameInfo.innerText = "Game Grid !";
+  //board is Filled, game is TIE
+  if (fillCount === 9) {
+    gameInfo.innerText = "Game Tied !";
     newGameBtn.classList.add("active");
   }
 }
@@ -135,10 +98,9 @@ function handleClick(index) {
     boxes[index].innerText = currentPlayer;
     gameGrid[index] = currentPlayer;
     boxes[index].style.pointerEvents = "none";
-
-    //swap turn
+    //swap karo turn ko
     swapTurn();
-    //check koi jeeta ya nii
+    //check koi jeet toh nahi gya
     checkGameOver();
   }
 }
@@ -148,3 +110,5 @@ boxes.forEach((box, index) => {
     handleClick(index);
   });
 });
+
+newGameBtn.addEventListener("click", initGame);
